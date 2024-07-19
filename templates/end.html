@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<header>
+    <h1>Game Over</h1>
+    <h4 class="game-header">{{ active_game.pretty_name }}</h4>
+</header>
+
+<div class="box" style="width:50%;">
+    <h2 style="font-size: 4rem;text-align:center">Score: {{ current_score }}</h2>
+
+    <button onclick="location.href='{{ url_for('home', active_game=active_game) }}'">
+        Back to Home
+    </button>
+    <button onclick="location.href='{{url_for('game', active_game=active_game)}}'" style="float:right;">
+        Play Again
+    </button>
+</div>
+
+<!-- Score Chart -->
+{{ macros.score_table(high_scores, active_game) }}
+
+{% endblock %}

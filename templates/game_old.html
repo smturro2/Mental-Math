@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>{{ active_game.pretty_name }}</h1>
+<h4>Score: {{ current_score }}</h4>
+<h4 style="padding-bottom:50px">Time: secs</h4>
+
+<div class="box" id="question-box">
+    <h2 id="question"> {{ question }} </h2>
+    <form id="gameForm" action="{{ url_for('submit_answer') }}" method="post">
+        <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
+        <div class="form-group">
+            <input type="text" class="form-control" id="answer" name="answer" autofocus>
+        </div>
+    </form>
+</div>
+
+
+
+<script>
+    $(document).ready(function(){
+        $('#gameForm').on('submit', function(e){
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'post',
+                data: $(this).serialize(),
+                success: function(response){
+                    if(response.was_correct){
+                        $('#answer').css('background-color', 'green');
+                    } else {
+                        $('#answer').css('background-color', 'red');
+                    }
+                    setTimeout(function(){
+                        $('#answer').css('background-color', '');
+                        $('#answer').focus();
+                    }, 500);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,134 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #575757;
+    margin: 0;
+    padding: 0;
+}
+header {
+    padding-bottom:50px;
+}
+
+
+/* Headers */
+h1 {
+    color:white;
+}
+h4.game-header {
+  color: var(--main-theme-color);
+  font-size: 1.2rem;
+  margin-top: -10px;
+}
+
+
+/* Main components */
+.container {
+    padding: 20px;
+}
+.centered-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.box {
+    background-color: #c7c7c7;
+    border: 1px solid #000;
+    border-radius: 15px;
+    padding: 15px;
+    width: 100%;
+    margin:auto;
+}
+
+
+/* Buttons */
+button {
+    background-color: transparent;
+    border: 2px solid var(--main-theme-color);
+    color: var(--main-theme-color);
+    border-radius: 15px;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+button.active,
+button:hover {
+    background-color: var(--main-theme-color);
+    border-color: white;
+    color: white;
+    text-de
+}
+.box button {
+    background-color: white;
+}
+
+
+ /* Go Button */
+#go-button {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+    cursor: pointer;
+
+    font-size: 2.5rem; /* Adjust font size as needed */
+    width: 200px; /* Adjust size as needed */
+    height: 200px; /* Adjust size as needed */
+}
+
+
+/* Game list */
+.games-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjust the spacing between buttons as needed */
+}
+
+
+/* Score chart */
+#score-chart {
+}
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+
+/* High Scores */
+#high-score-table{
+    width: 100%;
+}
+#high-score-table tr{
+    border-bottom: .5px solid grey;
+}
+#high-score-table td.date {
+    text-align: right;
+}body {
+    font-family: Arial, sans-serif;
+    background-color: #575757;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Questions and answers */
+h2#question {
+    text-align: center;
+    font-size: 4rem;
+
+}
+#answer {
+    text-align: center;
+    font-size: 2rem;
+    color: black;
+}
+/*
+#question-box {
+    transition: background-color 1s ease;
+}
+*/

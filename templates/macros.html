@@ -1,0 +1,40 @@
+{% macro high_score_list(high_scores, active_game) %}
+<div class="box" id="high-score">
+    <h2>High Scores</h2>
+    <h4 class="game-header">{{ active_game.pretty_name }}</h4>
+    <table id="high-score-table">
+        <tbody>
+            {% for score in high_scores %}
+            <tr>
+                <td>{{ loop.index }}. {{ score['score'] }}</td>
+                <td class="date">{{ score['date'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endmacro %}
+
+
+{% macro score_chart(active_game) %}
+<div class="box" id="score-chart">
+    <h2>Score Over Time</h2>
+    <h4 class="game-header">{{ active_game.pretty_name }}</h4>
+    <img src="{{ url_for('static', filename='temp/' + active_game.var_name + '_chart.png') }}" alt="Score Over Time" class="img-fluid">
+</div>
+{% endmacro %}
+
+
+
+{% macro score_table(high_scores, active_game) %}
+<div class="container">
+    <div class="row" >
+        <div class="col-md-9">
+            {{ score_chart(active_game) }}
+        </div>
+        <div class="col-md-3">
+            {{ high_score_list(high_scores, active_game) }}
+        </div>
+    </div>
+</div>
+{% endmacro %}

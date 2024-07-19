@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+
+<header>
+    <h1>{{ active_game.pretty_name }}</h1>
+    <h4>Score: <span id="score">{{ current_score }}</span></h4>
+    <h4>Time: <span id="timer">{{ total_time }}</span> secs</h4>
+</header>
+
+<div class="box" id="question-box">
+    <h2 id="question">{{ question }}</h2>
+    <form id="gameForm" action="{{ url_for('submit_answer') }}" method="post">
+        <input type="hidden" name="correct_answer" id="correct_answer" value="{{ correct_answer }}">
+        <div class="form-group">
+            <input type="text" class="form-control" id="answer" name="answer" autofocus>
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const timerElement = document.getElementById('timer');
+    const questionBox = document.getElementById('question-box');
+    const scoreElement = document.getElementById('score');
+    const form = document.getElementById('gameForm');
+    const answerInput = document.getElementById('answer');
+
+    let timer = {{ total_time }};
+    let timerInterval = setInterval(updateTimer, 1000);
+
+    function updateTimer() {
+        if (timer <= 0) {
+            endGame();
+            return;
+        }
+        timer--;
+        timerElement.textContent = timer;
+    }
+
+    function endGame() {
+        clearInterval(timerInterval);
+        window.location.href = "{{ url_for('end', active_game=active_game) }}";
+    }
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const answer = answerInput.value.trim();
+        const correctAnswer = parseFloat(document.getElementById('correct_answer').value);
+
+        fetch('{{ url_for('submit_answer') }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ answer: parseFloat(answer), correct_answer: correctAnswer })
+        })
+        .then(response => response.json())
+        .then(data => {
+            questionBox.style.transition = "background-color 0s ease";
+            if (data.correct) {
+                questionBox.style.backgroundColor = 'green';
+                scoreElement.textContent = data.new_score;
+            } else {
+                questionBox.style.backgroundColor = 'red';
+            }
+            loadNewQuestion();
+        });
+    });
+
+    function loadNewQuestion() {
+        fetch('{{ url_for('get_new_question') }}')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('question').textContent = data.question;
+            document.getElementById('correct_answer').value = data.correct_answer;
+            answerInput.value = '';
+            answerInput.focus();
+
+            // Change color back
+            questionBox.style.transition = "background-color 1s ease";
+            setTimeout(() => {
+                questionBox.style.backgroundColor = '';
+            }, 1000);
+        });
+    }
+});
+</script>
+{% endblock %}

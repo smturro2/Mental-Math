@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<header>
+    <h1 class="main-theme-color">Mental Math</h1>
+</header>
+
+<!--List of games-->
+<div class="games-list">
+    {% for key, game in games.items() %}
+        <button class="game-button {% if key == active_game.var_name %}active{% endif %}" onclick="changeGame('{{ key }}')">
+            {{ game.pretty_name }}
+        </button>
+    {% endfor %}
+</div>
+
+<!-- GO! Button-->
+<div class="centered-container" >
+    <button id="go-button" onclick="location.href='{{ url_for('game', active_game=active_game) }}'">
+        Go!
+    </button>
+</div>
+
+<!-- Score Chart -->
+{{ macros.score_table(high_scores, active_game) }}
+
+<script>
+    function changeGame(key) {
+        window.location.href = "/?active_game=" + key;
+    }
+</script>
+{% endblock %}
