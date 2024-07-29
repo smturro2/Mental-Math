@@ -51,6 +51,6 @@ def singleton(class_):
 
 
 def get_active_game():
-    default_game_var = list(game_dict.keys())[0]
+    default_game_var = list(game_dict.keys())[-1]
     active_game = request.args.get('active_game', default_game_var)
     return game_dict[active_game]

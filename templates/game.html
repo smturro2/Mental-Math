@@ -12,7 +12,7 @@
     <form id="gameForm" action="{{ url_for('submit_answer') }}" method="post">
         <input type="hidden" name="correct_answer" id="correct_answer" value="{{ correct_answer }}">
         <div class="form-group">
-            <input type="text" class="form-control" id="answer" name="answer" autofocus>
+            <input type="text"  autocomplete="off" class="form-control" id="answer" name="answer" autofocus>
         </div>
     </form>
 </div>
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function loadNewQuestion() {
-        fetch('{{ url_for('get_new_question') }}')
+        fetch('{{ url_for('get_new_question', active_game=active_game) }}')
         .then(response => response.json())
         .then(data => {
             document.getElementById('question').textContent = data.question;

@@ -3,6 +3,7 @@ from score_db import score_db
 from games import game_dict
 from helpers import generate_chart, get_active_game
 from config import config
+import matplotlib
 import os
 
 from dotenv import load_dotenv
@@ -10,6 +11,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
+matplotlib.use("agg")
 
 """PAGES"""
 
@@ -17,7 +19,7 @@ app.secret_key = os.getenv('SECRET_KEY')
 @app.route('/')
 def home():
     active_game = get_active_game()
-    # generate_chart(active_game)  # todo
+    generate_chart(active_game)
     high_scores = score_db.get_high_scores(active_game)
     return render_template('home.html',
                            theme_color=config["THEME_COLOR"],
@@ -30,7 +32,7 @@ def game():
     active_game = get_active_game()
     current_score = score_db.get_current_score()
     score_db.reset_score()
-    total_time = 30
+    total_time = 90
 
     question, correct_answer = active_game.generate_question()
     return render_template('game.html',
@@ -47,6 +49,7 @@ def end():
     current_score = score_db.get_current_score()
     score_db.save_score(active_game, current_score)
     high_scores = score_db.get_high_scores(active_game)
+    generate_chart(active_game)
 
     return render_template('end.html',
                            theme_color=config["THEME_COLOR"],

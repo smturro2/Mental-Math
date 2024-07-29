@@ -34,7 +34,7 @@ class ScoreDB:
 
 
     def save_score(self, game, score):
-        row = [game, score, dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
+        row = [str(game), score, dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
 
         with open('data/scores.csv', mode='a') as file:
             writer = csv.writer(file)
